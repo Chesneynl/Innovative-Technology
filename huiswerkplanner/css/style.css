@@ -1,0 +1,370 @@
+* {
+    margin:0;
+    padding:0;
+}
+
+
+[class*="col-"] {
+    float: left;
+    padding: 15px;
+}
+
+.wrapper {
+    width:100%;
+    float:left;
+}
+
+body {
+    background: white;
+    font-family:Helvetica, 'Trebuchet MS', Tahoma, sans-serif;
+}
+
+
+
+header {
+    height:50px;
+    box-shadow: 0px 0px 5px 1px #888888;
+    margin-bottom:20px;
+    background:white;
+    position:relative;
+    background: #E27575;
+}
+
+#header_content {
+    float:left;
+    width:100%;
+    background: #E27575;
+    position:relative;
+}
+
+#logo {
+    float: left;
+}
+
+#account_links {
+    position:absolute;
+    right:0;
+    top:0;
+    color:white;
+    margin-top: 15px;
+    margin-right: 20px;
+}
+
+#account_links span {
+    text-decoration:none;
+    font-style:italic;
+    font-size: 14px;
+    width:250px;
+    text-align:right;
+}
+
+#account_links a {
+    text-decoration:none;
+    color:white;
+    font-size:14px;
+}
+
+#menu_wrapper {
+    float:left;
+    width:100%;
+    height: 70px;
+    background: #384958;
+}
+
+main ul li {
+    float:left;
+    list-style:none;
+}
+
+main ul li:hover,
+main ul li.active{
+    background: #1F80A6;
+}
+
+main ul li:hover a,
+main ul li.active a{
+    color: white;
+}
+
+main ul li a {
+    line-height: 70px;
+    font-weight: bold;
+    text-decoration: none;
+    color: #f5f5f5;
+    color:white;
+    font-size:17px;
+    padding:0px 35px;
+    display: block;
+}
+
+#content {
+    box-shadow: 0px 0px 0px 0px #888888;
+    background:white;
+}
+
+@media (min-width: 1024px) {
+  #inner_content {
+      width:999px;
+   }
+
+   main,
+   #footer,
+   #content {
+       width:999px;
+       margin:0 auto;
+   }
+
+   #register_content {
+       width:999px;
+       float:left;
+
+       background: #F7F7F7;
+   }
+}
+
+#inner_content {
+    float:left;
+    min-height:330px;
+    background:white;
+ }
+
+#inner_content a {
+    color: #218DA6;
+    text-decoration: none;
+}
+
+.price_list {
+      font-size:14px;
+    margin-left: 10px;
+    margin-top: 10px;
+    padding-bottom: 30px;
+  }
+
+.price_list p{
+    padding-bottom:7px;
+}
+
+.price_list h2{
+    padding-bottom:10px;
+    padding-top:10px;
+}
+table {
+    min-width:530px;
+}
+
+
+
+#register {
+    width: 499px;
+     float: left;
+}
+
+.succes_message,
+.fail_message{
+    float:left;
+    margin-left:40px;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.fail_message {
+    color:red;
+}
+
+#login {
+    width: 500px;
+    float: left;
+}
+
+#footer_wrapper {
+    float:left;
+    width:100%;
+    background: #154859;
+}
+
+
+/* Basic Grey */
+.basic-grey {
+    width: 100%;
+    float:left;
+    background: #F7F7F7;
+    padding: 25px 0px 25px 0px;
+    font: 12px Georgia, "Times New Roman", Times, serif;
+    color: #888;
+    text-shadow: 1px 1px 1px #FFF;
+    border:1px solid #E4E4E4;
+}
+
+#login .basic-grey {
+
+    width: 500px;
+}
+
+#login .basic-grey {
+    border-bottom:0px;
+    width: 498px;
+}
+
+th, td, table {
+    border:none;
+    text-align:left;
+    font-size:14px;
+    border-spacing:5px;
+}
+
+td {
+    padding-right: 20px;
+}
+
+th {
+    border-bottom:1px solid black;
+    padding-right:15px;
+}
+
+#search_form {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-left: 5px;
+    font-size: 16px;
+}
+
+#search_form .basic-grey label>span {
+    text-align: left;
+    width: 50px;
+    font-size: 13px;
+}
+
+#search_form .basic-grey input[type="text"] {
+    width: 250px;
+}
+
+#search_form .basic-grey {
+    background:none;
+    border:none;
+    padding:0;
+}
+
+.homenr {
+    width:20px;
+}
+
+.open {
+    position:absolute;
+    left:5px;
+    top:5px;
+    font-size:12px;
+}
+
+.basic-grey h1 {
+    font-size: 25px;
+    padding: 0px 0px 10px 40px;
+    display: block;
+    border-bottom:1px solid #E4E4E4;
+    margin: -10px 0px 30px 0px;
+    color: #888;
+}
+.basic-grey h1>span {
+    display: block;
+    font-size: 11px;
+    margin-top:5px;
+}
+.basic-grey label {
+    display: block;
+    margin: 0px;
+}
+.basic-grey label>span {
+    float: left;
+    width: 20%;
+    text-align: right;
+    padding-right: 10px;
+    margin-top: 14px;
+    color: #888;
+}
+.basic-grey input[type="text"], .basic-grey input[type="time"], .basic-grey input[type="email"], .basic-grey input[type="password"], .basic-grey textarea, .basic-grey select, .basic-grey input[type="textarea"],
+.basic-grey input[type="date"]{
+    border: 1px solid #DADADA;
+    color: #888;
+    height: 30px;
+    margin-bottom: 16px;
+    margin-right: 6px;
+    margin-top: 2px;
+    outline: 0 none;
+    padding: 3px 3px 3px 5px;
+    width: 70%;
+    font-size: 12px;
+    line-height:15px;
+    box-shadow: inset 0px 1px 4px #ECECEC;
+    -moz-box-shadow: inset 0px 1px 4px #ECECEC;
+    -webkit-box-shadow: inset 0px 1px 4px #ECECEC;
+}
+
+.basic-grey input[type="textarea"] {
+    height:160px;
+}
+
+.basic-grey textarea{
+    padding: 5px 3px 3px 5px;
+}
+
+.basic-grey select {
+    height: 38px;
+}
+
+.basic-grey textarea{
+    height:100px;
+}
+
+.basic-grey .button {
+    background: #E27575;
+    border: none;
+    padding: 10px 25px 10px 25px;
+    color: #FFF;
+    box-shadow: 1px 1px 5px #B6B6B6;
+    border-radius: 3px;
+    text-shadow: 1px 1px 1px #9E3F3F;
+    cursor: pointer;
+}
+.basic-grey .button:hover {
+    background: #CF7A7A
+}
+
+.coming-classes {
+
+}
+
+.coming-classes li:first-child {
+  border-top:none;
+}
+
+.coming-classes li {
+  list-style:none;
+  position:relative;
+  border-top:1px solid black;
+  padding-bottom: 10px;
+  padding-top: 10px;
+}
+
+.coming-classes .date  {
+  font-size:12px;
+}
+
+.coming-classes .class  {
+  font-size:16px;
+  padding-bottom: 5px;
+}
+
+.coming-classes li .button {
+  position: absolute;
+  right: 0;
+  top: 11px;
+}
+
+.coming-classes li .button a{
+  color:#E27575 !important;
+  font-size:22px;
+}
+
+.section-title {
+    font-size: 23px;
+    padding-bottom: 20px;
+}
