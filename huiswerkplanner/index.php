@@ -3,6 +3,8 @@ session_start();
 require_once('scripts/config.php');
 $message = "";
 $searchItem = "";
+$currentDate = date('Y-m-d');
+
 
 // Check if logedin user is the admin
 if (!$_SESSION['admin']) {
@@ -20,34 +22,14 @@ if (isset($_POST['submit_class'])) {
 
 if (isset($_POST['submit_class'])) {
 
-    $timestamp = strtotime($time) + 30*60;
-    $endtime = date('H:i:s', $timestamp);
+    $message= "Uw afspraak is gemaakt.";
+    $query = "INSERT INTO appointments (app_date, userid, class, app_time)
+    VALUES ('$date', '" . $_SESSION['userid'] . "', '$class', '$time')";
 
-    var_dump($date->modify('-2 week'));
-    var_dump($endtime);
-
-    //Check if date exists with user input
-    $query = mysqli_query($db , "SELECT * FROM appointments WHERE app_time BETWEEN '$time' AND '$endtime'");
-    $query2 = mysqli_query($db , "SELECT * FROM appointments WHERE app_time BETWEEN '$time' AND '$endtime'");
-    $query3 = mysqli_query($db , "SELECT * FROM appointments WHERE app_time BETWEEN '$time' AND '$endtime'");
-
-    // if the query returns more then 0 rows that means that the date exists.
-    if (mysqli_num_rows($query) > 0) {
-        $message= "Er is al een afspraak gemaakt op deze datum.";
-    }
-    else if($time < '13:00' || $time > '23:00') {
-        $message = "Om deze tijd is de winkel niet geopend.";
-    }
-    else {
-        $message= "Uw afspraak is gemaakt.";
-        $query = "INSERT INTO appointments (app_date, userid, treatment, app_time, app_end_time)
-        VALUES ('$date', '" . $_SESSION['userid'] . "', '$treatmentType', '$time', '$endtime')";
-
-        if (mysqli_query($db, $query)) {
-            $message = "Uw afspraak is gemaakt.";
-        } else {
-            $message =  "Er is iets misgegaan";
-        }
+    if (mysqli_query($db, $query)) {
+        $message = "Uw afspraak is gemaakt.";
+    } else {
+        $message =  "Er is iets misgegaan";
     }
 }
 
@@ -61,21 +43,11 @@ if (isset($_GET['ai'])) {
         $message = "Er is iets misgegaan";
     }
 }
-//Get all classes that are upcoming
-$selectQuery = "SELECT * FROM appointments JOIN users ON appointments.userid = users.userid";
 
-//Get all classes that are still open
-$selectQuery2 = "SELECT * FROM appointments JOIN users ON appointments.userid = users.userid";
 
-//Get all classes that are still done
-$selectQuery3 = "SELECT * FROM appointments JOIN users ON appointments.userid = users.userid";
 
-if (isset($_POST['submit'])) {
-    $selectQuery = "SELECT * FROM appointments JOIN users ON appointments.userid = users.userid WHERE firstname LIKE '" . "%" . $_POST['search'] . "%" .  "' OR email LIKE '" . "%" . $_POST['search'] . "%" . "'ORDER BY app_date'" . "'";
-}
-$query = mysqli_query($db,$selectQuery);
-$query2 = mysqli_query($db,$selectQuery2);
-$query3 = mysqli_query($db,$selectQuery3);
+
+
 
 
 ?>
@@ -87,8 +59,19 @@ $query3 = mysqli_query($db,$selectQuery3);
     <link rel="stylesheet" type="text/css" href="css/style.css">
     <link rel="stylesheet" type="text/css" href="css/bootstrap-grid.min.css">
     <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">
+    <link href="http://addtocalendar.com/atc/1.5/atc-style-blue.css" rel="stylesheet" type="text/css">
 </head>
 <body>
+
+  <script type="text/javascript">(function () {
+              if (window.addtocalendar)if(typeof window.addtocalendar.start == "function")return;
+              if (window.ifaddtocalendar == undefined) { window.ifaddtocalendar = 1;
+                  var d = document, s = d.createElement('script'), g = 'getElementsByTagName';
+                  s.type = 'text/javascript';s.charset = 'UTF-8';s.async = true;
+                  s.src = ('https:' == window.location.protocol ? 'https' : 'http')+'://addtocalendar.com/atc/1.5/atc.min.js';
+                  var h = d[g]('body')[0];h.appendChild(s); }})();
+      </script>
+
 <div class="wrapper">
     <header>
         <div id="header_content">
@@ -104,61 +87,80 @@ $query3 = mysqli_query($db,$selectQuery3);
 
             <div id="search_form">
                 <form method="post" attribute="post" action="<?php echo $_SERVER['PHP_SELF']; ?>" class="basic-grey">
-                    <label><span>Zoeken</span>
-                        <input type="text"  name="search"  placeholder="Zoek op naam of email adres">
-                        <input type="submit" class="button" name="submit" value="Verzenden"></label>
-                    </label>
+
+                        <input type="text"  name="search"  placeholder="Zoek op naam van het vak">
+                        <input type="submit" class="button" name="submit" value="Zoeken"></label>
                 </form>
             </div>
-            <div class="col-md-6 coming-classes ">
+            <?php echo $message;?>
+            <?php
+              if (isset($_POST['submit'])) {?>
+            <div class="col-md-12 coming-classes search_results">
               <div class="section-title">
-                Komende vakken
+                Zoekresultaten
               </div>
               <ul>
-                  <?php include('scripts/get_appointments.php');?>
+                  <?php
+                      include('scripts/search_results.php');
+                    ?>
               </ul>
             </div>
-            <div class="col-md-6 coming-classes ">
-              <div class="section-title">
-                Openstaande vakken
-              </div>
-              <ul>
-                  <?php include('scripts/get_open_appointments.php'); ?>
-              </ul>
-            </div>
+            <?php
+          }
+         ?>
+            <div class="upcoming-classes">
+                <div class="col-md-6 coming-classes ">
+                  <div class="section-title">
+                    Komende vakken
+                  </div>
+                  <div class="section-subtitle">
+                    Dit zijn de vakken die binnen nu en twee weken eraan komen.
+                  </div>
+                  <ul>
+                      <?php include('scripts/get_appointments.php');?>
+                  </ul>
+                </div>
 
+                <div class="col-md-6 coming-classes upcoming-section">
+                  <div class="section-title">
+                    Openstaande vakken
+                  </div>
+                  <div class="section-subtitle">
+                    Dit zijn de vakken vanaf nu nog open staan.
+                  </div>
+                  <ul>
+                      <?php include('scripts/get_open_appointments.php'); ?>
+                  </ul>
+                </div>
+            </div>
             <div class="col-md-12 coming-classes ">
               <div class="section-title">
                 Afgeronde vakken
+              </div>
+              <div class="section-subtitle">
+                Dit zijn de vakken die de einddatum al bereikt hebben.
               </div>
               <ul>
                   <?php include('scripts/get_done_appointments.php'); ?>
               </ul>
             </div>
 
-            <div class="col-md-12">
+            <div class="col-md-12 add-class">
                 <form method="post" attribute="post" action="<?php echo $_SERVER['PHP_SELF']; ?>" class="basic-grey">
-                    <h1>Knippen<span>Maak hier een afspraak om uw haren te laten knippen.</span></h1>
-                    <?php echo $message;?>
-                    <label><span>Soort behandeling</span>
-                        <select name="treatmentType">
-                            <option value="Knippen">Knippen</option>
-                            <option value="Egale kleur" >Egale kleur</option>
-                            <option value="Highlight" >Highlight</option>
-                            <option value="Lowlight" >Lowlight</option>
-                            <option value="Permanenteren knippen watergolven of fohnen" >Permanenteren knippen watergolven of fohnen</option>
-                            <option value="Knippen & Egale kleur" >Knippen & Egale kleur</option>
-                            <option value="Knippen, egale kleur met highlight of lowlight" >Knippen, egale kleur met highlight of lowlight</option>
-                        </select>
+                    <h1>Vak toevoegen</h1>
+
+
+                    <p><label><span>Vak</span>
+                            <input type="text" name="class" value=""></p>
                     </label>
                     <p><label><span>Datum</span>
                             <input type="date" name="date" value="<?php echo date('Y-m-d'); ?>"></p>
                     </label>
                     <p><label><span>Tijd</span>
-                            <input type="time" name="time" value=""></p>
+                            <input type="time" name="time" value="17:00"></p>
                     </label>
                     <label><span>&nbsp;</span>
-                        <input type="submit" class="button" name="submit_class" value="Verzenden"></label>
+                        <input type="submit" class="button" name="submit_class" value="Toevoegen"></label>
                     </p>
                 </form>
             </div>
@@ -168,5 +170,8 @@ $query3 = mysqli_query($db,$selectQuery3);
 <div id="footer_wrapper">
     <div id="footer"></div>
 </div>
+
+
+
 </body>
 </html>
